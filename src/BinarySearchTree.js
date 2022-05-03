@@ -1,3 +1,5 @@
+const Queue = require("./Queue");
+
 class BinarySearchTree {
   constructor(key = null, value = null, parent = null) {
     this.key = key;
@@ -91,6 +93,26 @@ class BinarySearchTree {
       values = this.right.dfsPostOrder(values);
     }
     values.push(this.values);
+    return values;
+  }
+
+  bfs(tree, values = []) {
+    const queue = new Queue();
+    queue.enqueue(tree);
+    let node = queue.dequeue();
+    while (node) {
+      values.push(node.value);
+
+      if (node.left) {
+        queue.enqueue(node.left);
+      }
+
+      if (node.right) {
+        queue.enqueue(node.right);
+      }
+      node = queue.dequeue();
+    }
+
     return values;
   }
 
