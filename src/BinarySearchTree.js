@@ -116,6 +116,42 @@ class BinarySearchTree {
     return values;
   }
 
+  getHeight(currentHeight = 0) {
+    if (!this.left && !this.right) return currentHeight;
+
+    const newHeight = currentHeight + 1;
+
+    if (!this.left) return this.right.getHeight(newHeight);
+
+    if (!this.right) return this.left.getHeight(newHeight);
+
+    const leftHeight = this.left.getHeight(newHeight);
+    const rightHeight = this.right.getHeight(newHeight);
+
+    return Math.max(leftHeight, rightHeight);
+  }
+
+  isBST() {
+    const values = this.dfsInOrder();
+    for (let i = 1; i < values.length; i++) {
+      if (values[i] < values[i - 1]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  findKthLargestValue(k) {
+    const values = this.dfsInOrder();
+    const kthIndex = values.length - k;
+
+    if (kthIndex >= 0) {
+      return values[kthIndex];
+    } else {
+      console.error("k value exceeds the size of the BST.");
+    }
+  }
+
   _replaceWith(node) {
     if (this.parent) {
       if (this == this.parent.left) {
